@@ -1,0 +1,117 @@
+
+to access the the object
+ -  you just
+
+inorder to get or access a value from an erlang maps(Object) i just simply
+call maps:get(from,Message)
+
+
+<<"hello">>
+
+
+Variables
+    ↓
+Pattern matching
+    ↓
+Tuples
+    ↓
+Lists
+    ↓
+Functions
+    ↓
+Guards
+    ↓
+Recursion
+    ↓
+Modules
+    ↓
+Maps
+    ↓
+Binaries
+    ↓
+Nested data
+
+
+
+__________________________________________
+
+
+- lists:map/2
+map means: Apply a function to every item in a list.
+
+list:map(
+    fun
+)
+lists:map(Function,List)
+
+- map = transform every item
+
+
+__________________________________________
+
+- lists:filter - Keep only the items that satisfy a condition.
+
+
+Users = [
+    #{name => hebel, age => 25},
+    #{name => john, age => 30},
+    #{name => sara, age => 17}
+].
+
+list:map(
+    fun(#{
+        name :=Name,
+
+    }) -> Name
+)
+
+
+
+{foldl} is used when you want to process a list while accumulating a result.
+
+
+list:fold1(
+    fun(X,Acc)-> X + Acc end,
+    0,
+    Numbers
+)
+
+
+foldl(Function, InitialValue, List)
+
+
+__________________________________________
+
+try_catch in erlang
+
+try
+    Expression
+catch
+    Pattern ->
+        HandleIt
+end.
+
+__________________________________________
+
+Processes
+   ↓
+Message passing
+   ↓
+Links
+   ↓
+Monitors
+   ↓
+Supervisors
+   ↓
+OTP behaviours
+
+__________________________________________
+
+error(...) → error
+throw(...) → throw
+exit(...)  → exit
+
+
+spawn()
+spawn()
+spawn()
