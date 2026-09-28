@@ -13,3 +13,6 @@ server(Count)->
             get ->
                 io:format("Count Value Become = ~p~n",[Count])
         end.
+
+
+      <<Hello>> == "Hello".

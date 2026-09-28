@@ -1,5 +1,8 @@
 #!/usr/bin/env escript
 
+
+
+
 main(_) ->
     User = [
         #{
@@ -19,7 +22,7 @@ main(_) ->
             profile => #{
                 division => devops,
                 city => france
-            }
+
         },
          #{
             name => ayele,
@@ -39,4 +42,7 @@ main(_) ->
     io:format("Rest: ~p~n", [Rest]).
 
 
+
+
+ =>
 
