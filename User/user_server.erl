@@ -16,6 +16,10 @@
     handle_info/2
 ]).
 
+init([]) ->
+    {ok, #{}}.
+
+
 start_link() ->
     gen_server:start_link(
         {local, ?MODULE},
@@ -48,8 +52,7 @@ delete_user(Id) ->
         {delete_user, Id}
     ).
 
-init([]) ->
-    {ok, #{}}.
+
 
 handle_call({create_user, Id, Name}, _From, Users) ->
     User = #{
