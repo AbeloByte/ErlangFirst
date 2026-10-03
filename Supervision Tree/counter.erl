@@ -1,0 +1,31 @@
+-module(counter).
+-behavior(gen_server).
+
+-export([start_link/0,increment/0,get/0]).
+-export([init/1,handle_call/3,handle_cast/2]).
+
+start_link() ->
+    gen_server:start_link
+(
+        {local, ?MODULE},
+        ?MODULE,
+        [],
+        []
+    ).
+
+
+init([]) ->
+    {ok,0}.
+
+increment() ->
+    gen_server:cast(?MODULE, increment).
+
+get() ->
+    gen_server:call(?MODULE,get).
+
+handle_cast(increment,State) ->
+    Result = State + 1,
+    {noreply,Result}.
+
+handle_call(get, _From,State) ->
+    {reply,State,State}.
