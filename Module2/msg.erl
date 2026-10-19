@@ -1,8 +1,8 @@
 -module(msg).
--export([wait_for_message/0]).
+-export([wait_for_message/0,start/1]).
 
-% start() ->
-%     spawn()
+start() ->
+    spawn().
 wait_for_message() ->
     receive
         {hello, Name} ->
