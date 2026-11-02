@@ -16,7 +16,7 @@ fraud_detect() ->
         {payment,PaymentSendrId,Amount} when Amount > 0 ->
             PaymentSendrId ! {payment_success,"approved"};
         {payment,PaymentSendrId,Amount} when Amount < 0 ->
-            PaymentSendrId ! {payment_success,"rejected"};
+            PaymentSendrId ! {payment_success,"rejected"}
 
     end.
 

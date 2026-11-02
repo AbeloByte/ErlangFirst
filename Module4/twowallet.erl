@@ -8,8 +8,6 @@ wallet(Balance) ->
     receive
         {debit,Amount} when Amount > 0 , Amount =< Balance ->
             wallet(Balance - Amount);
-
-
         {credit,Amount} when Amount > 0  ->
             wallet(Balance + Amount);
         {getbalance,From} ->

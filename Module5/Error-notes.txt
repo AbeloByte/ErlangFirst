@@ -1,0 +1,53 @@
+When to use
+
+1. {error, Reason} — Expected failures
+    -  Use when something can go wrong during normal operation, such as an invalid email, insufficient balance, or a missing user.
+
+
+2. try ... catch — Handle an exception
+    - Use when an operation might raise an exception and you have a meaningful way to recover locally.
+
+====================================
+    safe_divide(A, B) ->
+        try A div B
+        catch
+            error:badarith ->
+                {error, division_failed}
+        end.
+====================================
+
+
+3. throw(Reason) — Signal a deliberate exceptional condition
+
+    - Use when you intentionally want to raise a value that
+    an enclosing try ... catch can handle.
+
+
+4. exit(Reason) — Signal termination
+
+    - Use when an exit exception is deliberately needed, or when
+    working with Erlang's process lifecycle.
+
+
+
+
+------  Trapping exit  ------
+Why is this useful?
+
+Imagine your XMPP server has a worker that crashes. Instead of automatically crashing with that worker, the parent can receive the failure message and decide how to respond.
+
+Remember: Trapping exits doesn't restart a failed process automatically. It only changes how the current process handles exit signals. Restarting workers is commonly the responsibility of an OTP supervisor.
+
+
+--------------  The monitoring process receives the message and continues running ------
+
+Why is this useful?
+
+Imagine your XMPP server monitors a worker that handles messages. If the worker crashes, the server can:
+- Log the failure.
+- Retry the task.
+- Start another worker.
+- Continue handling other connections.
+If the monitoring process also crashed every time a worker failed, it couldn't perform these recovery actions.
+
+Remember: A monitor reports a process's failure; it does not propagate that failure to the monitoring process.

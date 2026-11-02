@@ -1,6 +1,7 @@
 -module(register).
 -export([start/0,verify/1]).
 
+% Register
 start() ->
     register(counter, self()),
     loop_process(0).
@@ -49,73 +50,73 @@ loop_process(Count) ->
 
 % Process Registration and Look up
 
-% P1 = spawn(fun() ->
-%         receive
-%             stop ->
-%                 ok
-%         end
-%     end).
+P1 = spawn(fun() ->
+        receive
+            stop ->
+                ok
+        end
+    end).
 
-% P2 = spawn(fun() ->
-%         receive
-%             stop ->
-%                 ok
-%         end
-%     end).
-
-
-% P3 = spawn(fun() ->
-%         receive
-%             stop ->
-%                 ok
-%         end
-%     end).
+P2 = spawn(fun() ->
+        receive
+            stop ->
+                ok
+        end
+    end).
 
 
-% register(payment_server,P1).
-% register(notification_server,P2).
-% register(fraud_server,P3).
-
-% whereis(payment_server).
-% whereis(notification_server).
-% whereis(fraud_server).
-% whereis(unknown_server).
-
-% start() ->
-%     P1 = spawn(fun() ->
-%             receive
-%                 stop ->
-%                     ok
-%             end
-%         end).
-
-%     P2 = spawn(fun() ->
-%             receive
-%                 stop ->
-%                     ok
-%             end
-%         end).
+P3 = spawn(fun() ->
+        receive
+            stop ->
+                ok
+        end
+    end).
 
 
-%     P3 = spawn(fun() ->
-%             receive
-%                 stop ->
-%                     ok
-%             end
-%         end).
+register(payment_server,P1).
+register(notification_server,P2).
+register(fraud_server,P3).
+
+whereis(payment_server).
+whereis(notification_server).
+whereis(fraud_server).
+whereis(unknown_server).
+
+start() ->
+    P1 = spawn(fun() ->
+            receive
+                stop ->
+                    ok
+            end
+        end).
+
+    P2 = spawn(fun() ->
+            receive
+                stop ->
+                    ok
+            end
+        end).
 
 
-%     register(payment_server,P1).
-%     register(notification_server,P2).
-%     register(fraud_server,P3).
-
-%     whereis(payment_server).
-%     whereis(notification_server).
-%     whereis(fraud_server).
-%     whereis(unknown_server).
+    P3 = spawn(fun() ->
+            receive
+                stop ->
+                    ok
+            end
+        end).
 
 
-% selective receive
+    register(payment_server,P1).
+    register(notification_server,P2).
+    register(fraud_server,P3).
+
+    whereis(payment_server).
+    whereis(notification_server).
+    whereis(fraud_server).
+    whereis(unknown_server).
+
+
+% Exercise 10 — Selective receive
 verify(Amount) ->
     receive
         hello ->

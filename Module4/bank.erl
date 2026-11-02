@@ -1,5 +1,10 @@
 -module(bank).
--export([transaction/1]).
+% -export([transaction/1,check_balence/1]).
+-export([start/1,check_balence/1]).
+
+
+start(InitBalance) ->
+    spawn(fun() -> transaction(InitBalance) end).
 
 transaction(Balance) ->
     receive
@@ -16,12 +21,14 @@ transaction(Balance) ->
             transaction(Balance);
         stop ->
             ok;
-        _unkown ->
+        _ ->
             transaction(Balance)
     end.
 
-
-% receive ->
-%     {mybank_status,Status,Balance} ->
-%         io:format("Stats - ~p & Balance - ~p~n",[Status,Balance])
-% end.
+check_balence(Pid) ->
+    Pid ! {get,self()},
+    receive
+        {mybalance,Balance} ->
+            % io:format("Stats - ~p & Balance - ~p~n",[Balance])
+            io:format("Stats & Balance - ~p~n",[Balance])
+    end.
