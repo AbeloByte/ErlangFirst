@@ -14,6 +14,7 @@ start_process() ->
             io:format("Process down: ~p~n", [Reason])
     end.
 worker() ->
+    timer:sleep(2000),
     exit(normal).
 
 
@@ -41,7 +42,6 @@ start_process_without_pid() ->
 
 
 % Exercise 7
-
 cancel_process() ->
     Pid = spawn(fun()->
         timer:sleep(3000),exit(worker_finished) end),

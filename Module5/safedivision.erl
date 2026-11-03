@@ -7,6 +7,9 @@
 safe_divide(_N,0)  ->
     {error, division_by_zero};
 
+% safe_divide(N,M) when not is_number(M) orelse not is_number(N) ->
+%     {error, invalid_input};
+
 safe_divide(N,M) ->
     try
         Result = N / M,

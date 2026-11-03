@@ -3,49 +3,6 @@
 -export([start_worker/0,monitor_process/1,checkout_payment_process_id/1,checkout_payment/3]).
 
 
-
-% start_process() ->
-%     spawn(fun() -> watch_out(0) end).
-
-
-% watch_out(Trial) when Trial >= 3 ->
-%     io:format("Final Monitor Attempt Reached ~n");
-
-% watch_out(Trial) when Trial < 3 ->
-%     Pid = spawn(fun() -> process_payment() end),
-%     Ref = monitor(process,Pid),
-%     receive
-%         {'DOWN', Ref, process, Pid, Reason} ->
-%             io:format("Monitor Failed Because of ~p and Pid is ~p",[Reason,Pid]),
-%             watch_out(Trial + 1);
-%         {get_id,From} ->
-%             From ! {get_id,Pid},
-%             watch_out(Trial)
-%     end.
-
-% get_process_id_from_watch_out(WatchPid) ->
-%     WatchPid ! {get_id,self()},
-%     receive
-%         {get_id,Pid} ->
-%             Pid
-%     end.
-
-% process_payment() ->
-%     receive
-%         {charge, crash_test, _Amount, _ReplyTo} ->
-%             exit(the_worker_is_terminated);
-%         {charge, RequestId, Amount, ReplyTo} when is_number(Amount), Amount > 0 ->
-%             ReplyTo ! {payment_result, RequestId, {ok, Amount}},
-%             process_payment();
-
-%         {charge, RequestId, _Amount, ReplyTo} ->
-%             ReplyTo ! { payment_result,RequestId,{error, invalid_amount}},
-%             process_payment();
-%         stop ->
-%             ok
-%     end.
-
-
 start_worker() ->
     spawn(fun() -> monitor_process(0) end).
 
