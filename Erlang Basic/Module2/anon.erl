@@ -2,6 +2,6 @@
 % % -export([Square/1]).
 
 
-Square = fun(Num) -> Num * 2 end.
+% Square = fun(Num) -> Num * 2 end.
 
-Number = lists:map(Square).
+% Number = lists:map(Square)

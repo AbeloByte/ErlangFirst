@@ -122,7 +122,7 @@ end,
 % 0.0
 % 51> shopping_cart:apply_discount([], none).
 % 0
-52>
+% 52>
 % Cart = [
 %         {item, 1, "Keyboard", 45, 2},
 %         {item, 2, "Mouse", 20, 1},

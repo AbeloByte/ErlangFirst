@@ -27,45 +27,44 @@ average(Students) ->
 
 
 
--module(student_processor).
--export([
-    get_names/1,
-    get_passed/1,
-    get_failed/1,
-    average/1,
-    highest/1
-]).
+% -module(student_processor).
+% -export([
+%     get_names/1,
+%     get_passed/1,
+%     get_failed/1,
+%     average/1,
+%     highest/1
+% ]).
 
-get_names(Students) ->
-    lists:map(
-        fun({Name, _Score}) -> Name end,
-        Students
-    ).
+% get_names(Students) ->
+%     lists:map(
+%         fun({Name, _Score}) -> Name end,
+%         Students
+%     ).
 
+% get_passed(Students) ->
+%     lists:filter(
+%         fun({_Name, Score}) -> Score >= 60 end,
+%         Students
+%     ).
 
-get_passed(Students) ->
-    lists:filter(
-        fun({_Name, Score}) -> Score >= 60 end,
-        Students
-    ).
+% get_failed(Students) ->
+%     lists:filter(
+%         fun({_Name, Score}) -> Score < 60 end,
+%         Students
+%     ).
 
-get_failed(Students) ->
-    lists:filter(
-        fun({_Name, Score}) -> Score < 60 end,
-        Students
-    ).
+% average([]) ->
+%     0;
+% average(Students) ->
+%     Total = lists:foldl(
+%         fun({_Name, Score}, Acc) -> Score + Acc end,
+%         0,
+%         Students
+%     ),
+%     Total / length(Students).
 
-average([]) ->
-    0;
-average(Students) ->
-    Total = lists:foldl(
-        fun({_Name, Score}, Acc) -> Score + Acc end,
-        0,
-        Students
-    ),
-    Total / length(Students).
-
-highest([First | Rest]) ->
+% highest([First | Rest]) ->
     lists:foldl(
         fun({Name, Score}, {BestName, BestScore}) ->
             if
@@ -76,14 +75,6 @@ highest([First | Rest]) ->
         First,
         Rest
     ).
-
-
-
-
-
-
-
-
 
 
 % 1> c(student_result).
