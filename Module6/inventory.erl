@@ -11,6 +11,7 @@ restock() ->
     gen_server:call(?MODULE,{restock,Qty}).
 
 
+
 handle_call({restock, Qty}, _From, Stock) when is_integer(Qty), Qty > 0 ->
     {reply, {ok, Stock + Qty}, Stock + Qty};
 
