@@ -4,39 +4,42 @@
 
 -module(counter_server).
 -behaviour(gen_server).
-% -export([start/0,increment/0,decrement/0,reset/0]).
--export([start/0,increment/0,get_value/0]).
--export([init/1,handle_call/3]).
-% -export([init/1,handle_call/3,handle_cast/2]).
+-export([start/0,increment/0,decrement/0,reset/0]).
+% -export([start/0,increment/0,get_value/0]).
+% -export([init/1,handle_call/3]).
+-export([init/1,handle_call/3,handle_cast/2]).
 
 
 start() ->
      gen_server:start_link({local,?MODULE},?MODULE,[],[]).
 
-% init([]) ->
-%     io:format("starting the proces"),
-%     {ok,0}.
+init([]) ->
+    io:format("starting the proces"),
+    {ok,0}.
 
-% increment() ->
-%     gen_server:cast(?MODULE,increment).
+increment() ->
+    gen_server:cast(?MODULE,increment).
 
-% decrement() ->
-%     gen_server:call(?MODULE,decrement).
+decrement() ->
+    gen_server:call(?MODULE,decrement).
 
-% reset() ->
-%     gen_server:call(?MODULE,reset).
+reset() ->
+    gen_server:call(?MODULE,reset).
 
 
-% handle_cast(increment,Value) ->
-%     NewValue = Value + 1,
-%     {noreply,NewValue}.
+handle_cast(increment,Value) ->
+    NewValue = Value + 1,
+    {noreply,NewValue}.
 
-% handle_call(decrement,_From,Value) ->
-%     NewValue = Value - 1,
-%     {reply,{ok,NewValue},NewValue};
+handle_call(decrement,_From,Value) ->
+    NewValue = Value - 1,
+    {reply,{ok,NewValue},NewValue};
 
-% handle_call(reset,_From,_Value) ->
-%     {reply,{ok,0},0}.
+handle_call(reset,_From,_Value) ->
+    {reply,{ok,0},0}.
+
+
+
 
 
 % exercise 3

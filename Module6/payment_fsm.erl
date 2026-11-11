@@ -12,6 +12,9 @@ start_link() ->
     []
 ).
 
+init([]) ->
+    {ok,created,#{payment_id => <<"PAY-1001">>, retries => 0}}.
+
 authorize() ->
     gen_statem:call(?MODULE,authorize).
 capture() ->
@@ -28,42 +31,50 @@ callback_mode() ->
     state_functions.
 
 created({call,From},authorize,Data) ->
-    {next_state,authorized,Data,[{reply,From,{ok,authorized}}]}.
+    {next_state,authorized,Data,[{reply,From,{ok,authorized}}]};
 
 created({call,From},cancel,Data) ->
-    {next_state,cancelled,Data,[{reply,From,{ok,cancelled}}]}.
+    {next_state,cancelled,Data,[{reply,From,{ok,cancelled}}]};
 
 created({call,From},status,Data) ->
-    {keep_state,Data,[{reply,From,{ok,created}}]}.
+    {keep_state,Data,[{reply,From,{ok,created}}]};
+
 created({call,From},capture,Data) ->
-    {next_state,captured,Data,[{reply,From,{ok,capture}}]}.
-created({call,From},capture,Data) ->
-    {keep_state,,Data,[{reply,From,{error,not_autorized}}]}.
+    {keep_state,Data,[{reply,From,{error,not_autorized}}]};
 % autorization failed
 created({call, From}, authorize_fail, Data) ->
-    {next_state, failed, Data, [{reply, From, {error, declined}}]};
-
+    Auth_Trial = maps:get(retries,Data),
+    if
+        Auth_Trial >= 3 ->
+             {next_state, failed, Data, [{reply, From, {error, declined}}]};
+        true ->
+            NewValue = Auth_Trial + 1,
+            NewData =  Data#{
+            retries => NewValue
+    },
+             {keep_state,NewData,[{reply,From,{error,not_autorized}}]}
+    end;
 
 created(_Type,_Event,Data) ->
     {keep_state,Data}.
 
 
 authorized({call,From},capture,Data) ->
-    {next_state,captured,Data,[{replay,From,{ok,captured}}]}.
+    {next_state,captured,Data,[{reply,From,{ok,captured}}]};
 
 authorized({call,From},cancel,Data) ->
-    {next_state,cancelled,Data,[{replay,From,{ok,cancelled}}]}.
+    {next_state,cancelled,Data,[{reply,From,{ok,cancelled}}]};
 
 authorized({call,From},authorize,Data) ->
-    {keep_state,Data,[{replay,From,{ok,already_authorized}}]}.
+    {keep_state,Data,[{reply,From,{ok,already_authorized}}]};
 
 authorized({call,From},status,Data) ->
-    {keep_state,Data,[{replay,From,{ok,authorized}}]}.
+    {keep_state,Data,[{reply,From,{ok,authorized}}]};
 authorized(_Type,_Event,Data) ->
     {keep_state,Data}.
 
 captured({call,From},status,Data) ->
-    {keep_state,Data,[{replay,From,{ok,captured}}]}.
+    {keep_state,Data,[{reply,From,{ok,captured}}]};
 
 captured({call, From}, _Req, Data) ->
     {keep_state, Data, [{reply, From, {error, payment_already_captured}}]};
@@ -80,12 +91,12 @@ cancelled(_Type, _Event,Data) ->
 
 failed({call, From}, status, Data) ->
     {keep_state, Data, [{reply, From, failed}]};
-failed({call, From}, _Req, Data) ->
-    {keep_state, Data, [{reply, From, {error, payment_failed}}]};
+
+% failed({call, From}, _Req, Data) ->
+%     {keep_state, Data, [{reply, From, {error, payment_failed}}]};
 
 failed({call, From}, _Req, Data) ->
     {keep_state, Data, [{reply, From, {error, payment_in_terminal_failure_state}}]};
-
 
 failed(_Type, _Event, Data) -> {keep_state, Data}.
 

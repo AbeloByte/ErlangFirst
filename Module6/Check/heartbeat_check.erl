@@ -38,24 +38,24 @@ handle_info(check_heartbeats,State) ->
     % gEt the current monotonic time
      CurrentTime = erlang:monotonic_time(millisecond),
      NewState = maps:fold(
-    fun(User,UserData,Acc) ->
-        Status = maps:get(status,UserData),
-        LastSeen = maps:get(last_seen,UserData),
-     case Status of
-        online ->
-        ElapsedTime = CurrentTime - LastSeen,
-            case ElapsedTime > 10000 of
-                true ->
-                NewUserData = UserData#{
-                    status => offline
-                },
-                Acc#{User => NewUserData};
-                false ->
-                     Acc#{User => UserData}
-            end;
-        offline ->
-            Acc#{User => UserData}
-     end
+        fun(User,UserData,Acc) ->
+            Status = maps:get(status,UserData),
+            LastSeen = maps:get(last_seen,UserData),
+                case Status of
+                    online ->
+                    ElapsedTime = CurrentTime - LastSeen,
+                        case ElapsedTime > 10000 of
+                                true ->
+                                NewUserData = UserData#{
+                                    status => offline
+                                },
+                                Acc#{User => NewUserData};
+                                false ->
+                                    Acc#{User => UserData}
+                            end;
+                    offline ->
+                        Acc#{User => UserData}
+                end
     end
 ,#{},
 State),
